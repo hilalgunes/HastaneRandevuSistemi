@@ -59,9 +59,6 @@ class RegisterFragment : Fragment() {
             }
         }
 
-
-
-
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         binding.myViewModel = registerViewModel
         binding.lifecycleOwner = this
@@ -95,7 +92,6 @@ class RegisterFragment : Fragment() {
 
         return binding.root
     }
-
 
     private fun displayUsersList() {
         Log.i("MYTAG","insidisplayUsersList")

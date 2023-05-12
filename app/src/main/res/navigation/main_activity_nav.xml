@@ -1,4 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_activity_nav"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_nav"
+    app:startDestination="@id/splashActivity">
+    <activity
+        android:id="@+id/splashActivity"
+        android:name="com.example.hastanerandevusistemi.SplashActivity"
+        android:label="activity_splash"
+        tools:layout="@layout/activity_splash" />
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.example.hastanerandevusistemi.homePage.HomePageFragment"
+        android:label="HomePageFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.hastanerandevusistemi.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/registerGecis"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.hastanerandevusistemi.register.RegisterFragment"
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/loginGecis"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/homePageGecis"
+            app:destination="@id/homePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.hastanerandevusistemi.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/makeAnAppointmentFragment"
+        android:name="com.example.hastanerandevusistemi.appointment.MakeAnAppointmentFragment"
+        android:label="MakeAnAppointmentFragment" />
+    <fragment
+        android:id="@+id/appointmentsFragment"
+        android:name="com.example.hastanerandevusistemi.appointment.AppointmentsFragment"
+        android:label="AppointmentsFragment" />
+</navigation>

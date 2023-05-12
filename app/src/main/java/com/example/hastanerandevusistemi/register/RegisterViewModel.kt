@@ -13,17 +13,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-
-
-
 class RegisterViewModel(private val repository: RegisterRepository, application: Application) :
     AndroidViewModel(application), Observable {
 
     init {
         Log.i("MYTAG", "init")
     }
-
-
 
     var userDetailsLiveData = MutableLiveData<Array<RegisterEntity>>()
 
