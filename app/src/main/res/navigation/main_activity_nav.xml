@@ -3,34 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity_nav"
-    app:startDestination="@id/splashActivity">
-    <activity
-        android:id="@+id/splashActivity"
-        android:name="com.example.hastanerandevusistemi.SplashActivity"
-        android:label="activity_splash"
-        tools:layout="@layout/activity_splash" />
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/homePageFragment"
         android:name="com.example.hastanerandevusistemi.homePage.HomePageFragment"
-        android:label="HomePageFragment" />
+        android:label="HomePageFragment"
+        tools:layout="@layout/fragment_home_page"/>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.hastanerandevusistemi.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/registerGecis"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.hastanerandevusistemi.register.RegisterFragment"
-        android:label="RegisterFragment" >
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/loginGecis"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/homePageGecis"
-            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -40,9 +38,11 @@
     <fragment
         android:id="@+id/makeAnAppointmentFragment"
         android:name="com.example.hastanerandevusistemi.appointment.MakeAnAppointmentFragment"
-        android:label="MakeAnAppointmentFragment" />
+        android:label="MakeAnAppointmentFragment"
+        tools:layout="@layout/fragment_make_an_appointment"/>
     <fragment
         android:id="@+id/appointmentsFragment"
         android:name="com.example.hastanerandevusistemi.appointment.AppointmentsFragment"
-        android:label="AppointmentsFragment" />
+        android:label="AppointmentsFragment"
+        tools:layout="@layout/fragment_appointments"/>
 </navigation>

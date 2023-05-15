@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.databinding.DataBindingUtil
 import com.example.hastanerandevusistemi.databinding.ActivityMainBinding
+import com.example.hastanerandevusistemi.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

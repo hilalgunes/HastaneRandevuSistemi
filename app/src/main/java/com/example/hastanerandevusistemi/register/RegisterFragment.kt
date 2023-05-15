@@ -46,6 +46,7 @@ class RegisterFragment : Fragment() {
         val genderArray = arrayOf("Erkek", "Kız")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, genderArray)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        /*
         binding.genderSpinner.adapter = adapter
 
         binding.genderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -58,6 +59,8 @@ class RegisterFragment : Fragment() {
                 // do nothing
             }
         }
+
+         */
 
         registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         binding.myViewModel = registerViewModel
