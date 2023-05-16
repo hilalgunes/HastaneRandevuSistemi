@@ -72,10 +72,10 @@
                 android:inputType="text"
                 android:padding="10dp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/editText4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="339dp"
+                android:layout_height="43dp"
                 android:layout_marginTop="225dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Cinsiyet"
@@ -114,11 +114,12 @@
 
             <Button
                 android:id="@+id/button2"
-                android:layout_width="300px"
-                android:layout_height="200px"
-                android:layout_marginLeft="150dp"
+                android:layout_width="118dp"
+                android:layout_height="74dp"
+                android:layout_marginLeft="110dp"
                 android:layout_marginTop="460dp"
                 android:backgroundTint="#433939"
+                android:gravity="center"
                 android:text="Kayıt Ol"
                 android:textSize="12sp" />
 

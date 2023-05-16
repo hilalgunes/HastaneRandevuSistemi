@@ -7,6 +7,7 @@ import androidx.databinding.Observable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,9 +17,15 @@ import kotlinx.coroutines.launch
 class RegisterViewModel(private val repository: RegisterRepository, application: Application) :
     AndroidViewModel(application), Observable {
 
-    init {
-        Log.i("MYTAG", "init")
+    val navigateToLoginFragment: MutableLiveData<Boolean> = MutableLiveData(false)
+    fun loginButton() {
+        navigateToLoginFragment.value = true
     }
+
+    fun doneNavigatingToLoginFragment() {
+        navigateToLoginFragment.value = false
+    }
+
 
     var userDetailsLiveData = MutableLiveData<Array<RegisterEntity>>()
 
@@ -40,6 +47,7 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
     val Phone = MutableLiveData<String?>()
 
 
+
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -58,6 +66,7 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
 
     val errotoastUsername: LiveData<Boolean>
         get() = _errorToastUsername
+
 
 
     fun register() {
@@ -127,4 +136,5 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
 
     }
+
 }
