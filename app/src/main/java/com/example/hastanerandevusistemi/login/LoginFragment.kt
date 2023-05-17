@@ -1,6 +1,7 @@
 package com.example.hastanerandevusistemi.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.hastanerandevusistemi.AppDatabase
 import com.example.hastanerandevusistemi.R
 import com.example.hastanerandevusistemi.databinding.FragmentLoginBinding
+import com.example.hastanerandevusistemi.register.RegisterRepository
 
 
 class LoginFragment : Fragment() {
@@ -25,22 +28,57 @@ class LoginFragment : Fragment() {
     ): View? {
         // Veri bağlama işlemini yap
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        viewModel = ViewModelProvider(this).get(LoginFragmentViewModel::class.java)
 
+        val application = requireNotNull(this.activity).application
 
-        // Register butonuna tıklama olayını ayarla
-        binding.registerButton.setOnClickListener {
-            // Register butonuna tıklandığında ViewModel'deki registerButton işlemini çağır
-            viewModel.registerButton()
-            navigateToRegisterFragment()
-        }
+        val dao = AppDatabase.getInstance(application).registerDao()
 
-        // Login butonuna tıklama olayını ayarla
-        binding.loginButton.setOnClickListener {
-            // Login butonuna tıklandığında ViewModel'deki loginButton işlemini çağır
-            viewModel.loginButton()
-            navigateToHomePageFragment()
-        }
+        val repository = RegisterRepository(dao)
+
+        val factory = LoginViewModelFactory(repository, application)
+
+        viewModel = ViewModelProvider(requireActivity(), factory).get(LoginFragmentViewModel::class.java)
+
+        binding.myViewModel = viewModel
+
+        binding.lifecycleOwner = this
+
+        viewModel.navigateToLogin.observe(viewLifecycleOwner, Observer { hasFinished ->
+            if (hasFinished == true) {
+                Log.i("MYTAG", "inside observe")
+                viewModel.doneNavigating()
+                navigateToHomePageFragment()
+            }
+        })
+
+        viewModel.navigatetoRegister.observe(viewLifecycleOwner, Observer { hasFinished ->
+            if (hasFinished == true) {
+                Log.i("MYTAG", "inside observe")
+                viewModel.doneNavigating()
+                navigateToRegisterFragment()
+            }
+        })
+
+        viewModel.errotoast.observe(viewLifecycleOwner, Observer { hasError->
+            if(hasError==true){
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+                viewModel.donetoast()
+            }
+        })
+
+        viewModel.errotoastUser.observe(viewLifecycleOwner, Observer { hasError->
+            if(hasError==true){
+                Toast.makeText(requireContext(), "User doesnt exist,please Register!", Toast.LENGTH_SHORT).show()
+                viewModel.donetoastErrorUsername()
+            }
+        })
+
+        viewModel.errorToastInvalidPassword.observe(viewLifecycleOwner, Observer { hasError->
+            if(hasError==true){
+                Toast.makeText(requireContext(), "Please check your Password", Toast.LENGTH_SHORT).show()
+                viewModel.donetoastInvalidPassword()
+            }
+        })
 
         return binding.root
     }

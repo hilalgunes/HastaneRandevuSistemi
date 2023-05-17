@@ -1,40 +1,102 @@
 package com.example.hastanerandevusistemi.login
 
+import android.app.Application
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.hastanerandevusistemi.R
-import com.example.hastanerandevusistemi.databinding.FragmentLoginBinding
+import com.example.hastanerandevusistemi.register.RegisterRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class LoginFragmentViewModel : ViewModel() {
 
-    private val _navigateToRegisterFragment = MutableLiveData<Boolean>()
-    val navigateToRegisterFragment: LiveData<Boolean>
-        get() = _navigateToRegisterFragment
+class LoginFragmentViewModel(private val repository: RegisterRepository, application: Application) :
+    AndroidViewModel(application), Observable {
 
-    private val _navigateToHomePageFragment = MutableLiveData<Boolean>()
-    val navigateToHomePageFragment: LiveData<Boolean>
-    get() = _navigateToHomePageFragment
 
+    @Bindable
+    val tC = MutableLiveData<String?>()
+    @Bindable
+    val password = MutableLiveData<String?>()
+
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val _errorToast = MutableLiveData<Boolean>()
+
+    val errotoast: LiveData<Boolean>
+        get() = _errorToast
+
+    private val _errorToastUser = MutableLiveData<Boolean>()
+
+    val errotoastUser: LiveData<Boolean>
+        get() = _errorToastUser
+
+    private val _errorToastInvalidPassword = MutableLiveData<Boolean>()
+
+    val errorToastInvalidPassword: LiveData<Boolean>
+        get() = _errorToastInvalidPassword
+
+    private val _navigateToLogin= MutableLiveData<Boolean>()
+
+    val navigateToLogin: LiveData<Boolean>
+    get() = _navigateToLogin
+
+    private val _navigatetoRegister = MutableLiveData<Boolean>()
+
+    val navigatetoRegister: LiveData<Boolean>
+        get() = _navigatetoRegister
+
+    fun signup() {
+        _navigatetoRegister.value = true
+    }
     fun loginButton() {
-        _navigateToHomePageFragment.value = true
+        if (tC.value == null || password.value == null ) {
+            _errorToast.value = true
+        } else {
+            uiScope.launch {
+                val usersNames = repository.getUser(tC.value!!, password.value!!)
+                if (usersNames != null) {
+                    if(usersNames.password == password.value){
+                        tC.value = null
+                        password.value = null
+                        _navigateToLogin.value = true
+                    }else{
+                        _errorToastInvalidPassword.value = true
+                    }
+                } else {
+                    _errorToastUser.value = true
+                }
+            }
+        }
     }
 
-    fun doneNavigatingToHomePageFragment() {
-        _navigateToHomePageFragment.value = false
+    fun doneNavigating() {
+        _navigateToLogin.value = false
     }
 
-    fun registerButton() {
-        _navigateToRegisterFragment.value = true
+    fun donetoast() {
+        _errorToast.value = false
+        Log.i("MYTAG", "Done taoasting ")
     }
 
-    fun doneNavigatingToRegisterFragment() {
-        _navigateToRegisterFragment.value = false
+    fun donetoastErrorUsername() {
+        _errorToastUser .value = false
+        Log.i("MYTAG", "Done taoasting ")
+    }
+
+    fun donetoastInvalidPassword() {
+        _errorToastInvalidPassword .value = false
+        Log.i("MYTAG", "Done taoasting ")
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+    }
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }
 
 }

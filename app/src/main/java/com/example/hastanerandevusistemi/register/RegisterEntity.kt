@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "users")
+@Entity(tableName = "Register_users_table")
 data class RegisterEntity (
 
     @PrimaryKey(autoGenerate = true)
@@ -20,20 +20,20 @@ data class RegisterEntity (
     @ColumnInfo(name = "tcNo")
     var TC: String,
 
-    @ColumnInfo(name = "password")
-    var password: String,
-
     @ColumnInfo(name = "gender")
     var gender: String,
-
-    @ColumnInfo(name = "email")
-    var email: String,
 
     @ColumnInfo(name = "birthday")
     var birthday: String,
 
+    @ColumnInfo(name = "email")
+    var email: String,
+
     @ColumnInfo(name = "phone")
     var phone: String,
+
+    @ColumnInfo(name = "password")
+    var password: String,
 
 
 )

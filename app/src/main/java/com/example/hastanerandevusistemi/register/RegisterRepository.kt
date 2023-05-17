@@ -1,14 +1,16 @@
 package com.example.hastanerandevusistemi.register
 
-import androidx.lifecycle.LiveData
 
-interface RegisterRepository {
+class RegisterRepository(private val dao: RegisterDao) {
 
 
-    suspend fun insert(user: RegisterEntity)
+    suspend fun insert(user: RegisterEntity) {
+        return dao.addUser(user)
+    }
 
-    suspend fun getAllUsers(): LiveData<List<RegisterEntity>>
 
-    suspend fun getUser(tcNo: String, password: String): RegisterEntity?
+    suspend fun getUser(tcNo: String, password: String): RegisterEntity?{
+        return dao.getUser(tcNo,password)
+    }
 
 }

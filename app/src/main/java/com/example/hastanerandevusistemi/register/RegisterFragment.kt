@@ -12,13 +12,14 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.hastanerandevusistemi.AppDatabase
 import com.example.hastanerandevusistemi.R
 import com.example.hastanerandevusistemi.databinding.FragmentRegisterBinding
-import com.example.hastanerandevusistemi.login.LoginFragmentViewModel
+
 
 class RegisterFragment : Fragment() {
 
@@ -31,20 +32,59 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
 
-        binding.textView.setOnClickListener {
-            // Register butonuna tıklandığında ViewModel'deki registerButton işlemini çağır
-            viewModel.loginButton()
-            navigateToLoginFragment()
+        val application = requireNotNull(this.activity).application
+
+        val dao = AppDatabase.getInstance(application).registerDao()
+
+        val repository = RegisterRepository(dao)
+
+        val factory = RegisterViewModelFactory(repository, application)
+
+        viewModel = ViewModelProvider(requireActivity(), factory).get(RegisterViewModel::class.java)
+
+        // Spinner için veri kaynağını belirleme
+        val genderOptions = arrayOf("Kız", "Erkek")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, genderOptions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.gender.adapter = adapter
+
+        // Spinner seçim olaylarını dinleme
+        binding.myViewModel = viewModel
+        binding.gender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.gender.value = parent?.getItemAtPosition(position) as String?
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // İstenirse, bir şey yapabilirsiniz, örneğin varsayılan değeri atayabilirsiniz.
+            }
         }
+
+        binding.myViewModel = viewModel
+
+        binding.lifecycleOwner = this
+
+        viewModel.navigateToLoginFragment.observe(viewLifecycleOwner, Observer { hasFinished ->
+            if (hasFinished == true) {
+                Log.i("MYTAG", "inside observe")
+                viewModel.doneNavigating()
+                navigateToLoginFragment()
+
+            }
+        })
+
+        viewModel.errotoast.observe(viewLifecycleOwner, Observer { hasError->
+            if(hasError==true){
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+                viewModel.donetoast()
+            }
+        })
 
         return binding.root
     }
 
-    private fun navigateToLoginFragment() {
-        findNavController().navigate(R.id.loginFragment)
+     private fun navigateToLoginFragment() {
+        findNavController().navigate(R.id.loginGecis)
     }
-
-
 }

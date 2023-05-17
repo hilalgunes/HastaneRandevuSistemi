@@ -17,12 +17,12 @@
 
         <RelativeLayout
             android:id="@+id/red_box"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="369dp"
+            android:layout_height="614dp"
             android:layout_centerInParent="true"
+            android:layout_margin="20dp"
             android:background="@drawable/blue_box_shape"
             android:padding="15dp"
-            android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="-50dp"
                 android:background="@null"
-                android:text="Kayıt ol"
+                android:text="Kayıt Ol"
                 android:textColor="#433939"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -49,6 +49,7 @@
                 android:layout_marginTop="60dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Ad"
+                android:text="@={myViewModel.Name}"
                 android:inputType="text"
                 android:padding="10dp" />
 
@@ -59,6 +60,7 @@
                 android:layout_marginTop="115dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Soyad"
+                android:text="@={myViewModel.Surname}"
                 android:inputType="text"
                 android:padding="10dp" />
 
@@ -69,11 +71,12 @@
                 android:layout_marginTop="170dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Tc Kimlik Numarası"
+                android:text="@={myViewModel.TC}"
                 android:inputType="text"
                 android:padding="10dp" />
 
             <Spinner
-                android:id="@+id/editText4"
+                android:id="@+id/gender"
                 android:layout_width="339dp"
                 android:layout_height="43dp"
                 android:layout_marginTop="225dp"
@@ -89,6 +92,7 @@
                 android:layout_marginTop="280dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Doğum Tarihi"
+                android:text="@={myViewModel.Birthday}"
                 android:inputType="text"
                 android:padding="10dp" />
 
@@ -99,6 +103,7 @@
                 android:layout_marginTop="335dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Email"
+                android:text="@={myViewModel.Email}"
                 android:inputType="text"
                 android:padding="10dp" />
 
@@ -109,16 +114,30 @@
                 android:layout_marginTop="390dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Telefon Numarası"
+                android:text="@={myViewModel.Phone}"
                 android:inputType="text"
                 android:padding="10dp" />
 
+            <EditText
+                android:id="@+id/sifre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="445dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Şifre"
+                android:text="@={myViewModel.Password}"
+                android:inputType="text"
+                android:padding="10dp" />
+
+
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/registerbutton"
                 android:layout_width="118dp"
                 android:layout_height="74dp"
                 android:layout_marginLeft="110dp"
-                android:layout_marginTop="460dp"
+                android:layout_marginTop="520dp"
                 android:backgroundTint="#433939"
+                android:onClick="@{()->myViewModel.registerButton()}"
                 android:gravity="center"
                 android:text="Kayıt Ol"
                 android:textSize="12sp" />
@@ -127,23 +146,12 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="440dp"
+                android:layout_marginTop="500dp"
                 android:text="Zaten hesabınız var mı ?"
+                android:onClick="@{()->myViewModel.login()}"
                 android:textSize="15sp" />
 
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sağlıklı Günler ............ ?"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="30dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
