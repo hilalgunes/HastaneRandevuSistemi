@@ -8,7 +8,11 @@
         android:id="@+id/homePageFragment"
         android:name="com.example.hastanerandevusistemi.homePage.HomePageFragment"
         android:label="HomePageFragment"
-        tools:layout="@layout/fragment_home_page"/>
+        tools:layout="@layout/fragment_home_page">
+        <action
+            android:id="@+id/profilGecis"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.hastanerandevusistemi.login.LoginFragment"
