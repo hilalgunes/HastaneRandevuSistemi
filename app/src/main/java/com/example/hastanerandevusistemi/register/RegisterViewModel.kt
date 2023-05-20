@@ -36,6 +36,7 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
     @Bindable
     val password = MutableLiveData<String?>()
 
+
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -50,14 +51,12 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
         get() = _errorToastUsername
 
 
-
     private val _navigateToLoginFragment = MutableLiveData<Boolean>()
 
     val navigateToLoginFragment: LiveData<Boolean>
         get() = _navigateToLoginFragment
 
     fun login() {
-
         _navigateToLoginFragment.value = true
     }
 
@@ -96,7 +95,7 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
                     email.value = null
                     phone.value = null
                     password.value = null
-                   // _navigateToLoginFragment.value = true
+                    _navigateToLoginFragment.value = true
                 }
             }
         }

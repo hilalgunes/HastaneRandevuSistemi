@@ -8,12 +8,18 @@ import kotlinx.coroutines.launch
 
 class HomePageFragmentViewModel(private val repository: RegisterRepository, application: Application) : AndroidViewModel(application) {
 
-    val kullaniciAdi: MutableLiveData<String?> = MutableLiveData()
+    val kullaniciAdi: LiveData<String?> = MutableLiveData()
+
 
     private val _navigateto = MutableLiveData<Boolean>()
 
     val navigateto: LiveData<Boolean>
         get() = _navigateto
+
+    private val _navigatetoAppointment = MutableLiveData<Boolean>()
+
+    val navigatetoappointment: LiveData<Boolean>
+        get() = _navigatetoAppointment
 
     fun doneNavigating(){
         _navigateto.value=false
@@ -22,4 +28,9 @@ class HomePageFragmentViewModel(private val repository: RegisterRepository, appl
     fun profile() {
         _navigateto.value = true
     }
+
+    fun randevual() {
+        _navigatetoAppointment.value = true
+    }
+
 }

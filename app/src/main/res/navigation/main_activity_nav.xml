@@ -12,6 +12,9 @@
         <action
             android:id="@+id/profilGecis"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/makeAnAppointmentFragmentgecis"
+            app:destination="@id/makeAnAppointmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -19,20 +22,20 @@
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/registerGecis"
-            app:destination="@id/registerFragment" />
-        <action
             android:id="@+id/homePageFragmentgecis"
             app:destination="@id/homePageFragment" />
+        <action
+            android:id="@+id/registerGecis"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.hastanerandevusistemi.register.RegisterFragment"
-        android:label="RegisterFragment"
-        tools:layout="@layout/fragment_register">
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/loginGecis"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_registerFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -49,4 +52,9 @@
         android:name="com.example.hastanerandevusistemi.appointment.AppointmentsFragment"
         android:label="AppointmentsFragment"
         tools:layout="@layout/fragment_appointments"/>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.hastanerandevusistemi.MainActivity"
+        android:label="MainActivity"
+        tools:layout="@layout/activity_main"/>
 </navigation>

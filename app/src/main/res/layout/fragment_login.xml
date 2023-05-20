@@ -77,7 +77,7 @@
                 android:backgroundTint="#433939"
                 android:text="Giriş Yap"
                 android:onClick="@{()->myViewModel.loginButton()}"
-                app:layout_constraintBottom_toTopOf="@+id/button3"
+                app:layout_constraintBottom_toBottomOf="@+id/red_box"
                 app:layout_constraintEnd_toEndOf="@+id/red_box"
                 app:layout_constraintStart_toEndOf="@+id/registerButton"
                 app:layout_constraintTop_toBottomOf="@+id/passaword" />
@@ -89,34 +89,12 @@
                 android:backgroundTint="#433939"
                 android:text="Kayıt Ol"
                 android:onClick="@{()->myViewModel.signup()}"
-                app:layout_constraintBottom_toTopOf="@+id/button3"
+                app:layout_constraintBottom_toBottomOf="@+id/red_box"
                 app:layout_constraintEnd_toStartOf="@+id/loginButton"
                 app:layout_constraintStart_toStartOf="@+id/red_box"
                 app:layout_constraintTop_toBottomOf="@id/passaword" />
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:backgroundTint="#D01B22"
-                android:text="E-devlet ile giriş"
-                android:textAlignment="textEnd"
-                android:textSize="15dp"
-                app:layout_constraintBottom_toBottomOf="@+id/red_box"
-                app:layout_constraintEnd_toEndOf="@+id/red_box"
-                app:layout_constraintEnd_toStartOf="@+id/registerButton"
-                app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="#D01B22"
-                android:elevation="7dp"
-                app:layout_constraintBottom_toBottomOf="@+id/red_box"
-                app:layout_constraintStart_toStartOf="@+id/button3"
-                app:layout_constraintTop_toBottomOf="@+id/registerButton"
-                app:srcCompat="@drawable/unnamed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

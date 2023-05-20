@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.hastanerandevusistemi.AppDatabase
 import com.example.hastanerandevusistemi.R
@@ -85,6 +86,6 @@ class RegisterFragment : Fragment() {
     }
 
      private fun navigateToLoginFragment() {
-        findNavController().navigate(R.id.loginGecis)
+      findNavController().navigate(R.id.mainActivity)
     }
 }

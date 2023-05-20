@@ -43,17 +43,7 @@ class HomePageFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val tcNo = "kullanıcınınTcNo"
-        val password = "kullanıcınınParolası"
 
-        lifecycleScope.launch {
-            val kullanici: RegisterEntity? = dao.getUser(tcNo, password)
-            kullanici?.let { user ->
-                val kullaniciAdi = user.name
-                val metin = "Sn. $kullaniciAdi, sağlıklı günleri hedefleyin!"
-                binding.textView.text = metin
-            }
-        }
 
         viewModel.navigateto.observe(viewLifecycleOwner, Observer { hasFinished ->
             if (hasFinished == true) {
@@ -62,13 +52,20 @@ class HomePageFragment : Fragment() {
             }
         })
 
+        viewModel.navigatetoappointment.observe(viewLifecycleOwner, Observer { hasFinished ->
+            if (hasFinished == true) {
+                viewModel.doneNavigating()
+                navigateToMakeAnAppointmentFragment()
+            }
+        })
+
+
         binding.cikis.setOnClickListener {
             navigateToLoginFragment()
         }
-        binding.randevual.setOnClickListener {
-            navigateToMakeAnAppointmentFragment()
-        }
+
         return binding.root
+
     }
 
     private fun navigateToProfileFragment(){
@@ -76,7 +73,7 @@ class HomePageFragment : Fragment() {
     }
 
     private fun navigateToMakeAnAppointmentFragment() {
-        findNavController().navigate(R.id.makeAnAppointmentFragment)
+        findNavController().navigate(R.id.makeAnAppointmentFragmentgecis)
     }
 
     private fun navigateToLoginFragment() {

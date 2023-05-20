@@ -18,7 +18,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sağlıklı Günler ............ ?"
+            android:text="Sağlıklı Günler Dileriz Ayşe Yıldız"
             android:textColor="#433939"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -53,78 +53,86 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/con"
-                app:layout_constraintBottom_toTopOf="@+id/il"/>
+                app:layout_constraintBottom_toTopOf="@+id/ilSpinner"/>
 
             <Spinner
-                android:id="@+id/il"
+                android:id="@+id/ilSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintBottom_toTopOf="@+id/ilce"
+               app:layout_constraintBottom_toTopOf="@+id/ilceSpinner"
                 app:layout_constraintTop_toBottomOf="@+id/randevual"
                 android:background="@drawable/edittext_bg"
+                app:entries="@{myViewModel.il}"
                 />
 
             <Spinner
-                android:id="@+id/ilce"
+                android:id="@+id/ilceSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/hastane"
-                app:layout_constraintTop_toBottomOf="@+id/il"/>
+                app:layout_constraintBottom_toTopOf="@+id/hastaneSpinner"
+                app:layout_constraintTop_toBottomOf="@+id/ilSpinner"
+                app:entries="@{myViewModel.ilce}"
+                />
 
             <Spinner
-                android:id="@+id/hastane"
+                android:id="@+id/hastaneSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ilce"
-                app:layout_constraintBottom_toTopOf="@+id/poliklinik"/>
+                app:layout_constraintTop_toBottomOf="@id/ilceSpinner"
+                app:layout_constraintBottom_toTopOf="@+id/poliklinikSpinner"
+                app:entries="@{myViewModel.hastane}"/>
 
             <Spinner
-                android:id="@+id/poliklinik"
+                android:id="@+id/poliklinikSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/doktor"
-                app:layout_constraintTop_toBottomOf="@+id/hastane"/>
+                app:layout_constraintBottom_toTopOf="@+id/doktorSpinner"
+                app:layout_constraintTop_toBottomOf="@+id/hastaneSpinner"
+                app:entries="@{myViewModel.poliklinik}"/>
 
             <Spinner
-                android:id="@+id/doktor"
+                android:id="@+id/doktorSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/poliklinik"
-                app:layout_constraintBottom_toTopOf="@+id/gun"/>
+                app:layout_constraintTop_toBottomOf="@+id/poliklinikSpinner"
+                app:layout_constraintBottom_toTopOf="@+id/gunSpinner"
+                app:entries="@{myViewModel.doktor}"/>
 
             <Spinner
-                android:id="@+id/gun"
+                android:id="@+id/gunSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/doktor"
-                app:layout_constraintBottom_toTopOf="@+id/saat"/>
+                app:layout_constraintTop_toBottomOf="@+id/doktorSpinner"
+                app:layout_constraintBottom_toTopOf="@+id/saatSpinner"
+                app:entries="@{myViewModel.gun}"/>
 
             <Spinner
-                android:id="@+id/saat"
+                android:id="@+id/saatSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/randevugor"
-                app:layout_constraintTop_toBottomOf="@+id/gun"
-                android:background="@drawable/edittext_bg"/>
+                app:layout_constraintTop_toBottomOf="@+id/gunSpinner"
+                android:background="@drawable/edittext_bg"
+                app:entries="@{myViewModel.saat}"/>
 
             <Button
                 android:id="@+id/randevugor"
@@ -132,12 +140,13 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#433939"
                 app:cornerRadius="10dp"
-                android:text="Randevuları Görüntüle"
+                android:text="Randevu Oluştur"
+                android:onClick="@{()->myViewModel.makeAnAppointment()}"
                 android:textSize="13dp"
                 app:layout_constraintBottom_toBottomOf="@+id/con"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/saat"/>
+                app:layout_constraintTop_toBottomOf="@+id/saatSpinner"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
