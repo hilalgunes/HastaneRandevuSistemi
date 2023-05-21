@@ -50,10 +50,6 @@ class MakeAnAppointmentFragmentViewModel(private val repository: RandevuReposito
         return randevuList
     }
 
-    fun setRandevuList(newList: List<RandevuEntity>) {
-        randevuList.value = newList
-    }
-
     fun  makeAnAppointment() {
 
     }
@@ -78,6 +74,7 @@ class MakeAnAppointmentFragmentViewModel(private val repository: RandevuReposito
         }
         val ilceList = mutableListOf<String>()
         val randevuList = randevuList.value
+
         if (randevuList != null) {
             for (randevu in randevuList) {
                 if (randevu.il == il && !ilceList.contains(randevu.ilce)) {
@@ -85,7 +82,9 @@ class MakeAnAppointmentFragmentViewModel(private val repository: RandevuReposito
                 }
             }
         }
+        // İlçeleri ilcelerMap'e kaydet
         ilcelerMap[il] = ilceList
+
         return ilceList
     }
 
@@ -210,7 +209,6 @@ class MakeAnAppointmentFragmentViewModel(private val repository: RandevuReposito
         }
         return randevuList
     }
-
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }

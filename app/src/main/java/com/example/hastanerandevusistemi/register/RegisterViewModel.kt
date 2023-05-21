@@ -80,13 +80,13 @@ class RegisterViewModel(private val repository: RegisterRepository, application:
                     val Surname = surname.value!!
                     val tc = tC.value!!
                     val Gender = gender.value!!
-                    val Email = email.value!!
                     val Birthday = birthday.value!!
+                    val Email = email.value!!
                     val Phone = phone.value!!
                     val Password = password.value!!
 
                     Log.i("MYTAG", "inside Submit")
-                    insert(RegisterEntity(0, Name, Surname, tc, Gender, Email, Birthday, Phone, Password))
+                    insert(RegisterEntity(0, Name, Surname, tc, Gender,Birthday, Email, Phone, Password))
                     name.value = null
                     surname.value = null
                     tC.value = null
