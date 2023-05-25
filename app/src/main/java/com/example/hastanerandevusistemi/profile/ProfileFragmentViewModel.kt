@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.hastanerandevusistemi.register.RegisterEntity
 import com.example.hastanerandevusistemi.register.RegisterRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 class ProfileFragmentViewModel(private val repository: RegisterRepository,application: Application)
     :AndroidViewModel(application), Observable{

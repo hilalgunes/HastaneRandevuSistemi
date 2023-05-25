@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.hastanerandevusistemi.AppDatabase
 import com.example.hastanerandevusistemi.R
 import com.example.hastanerandevusistemi.databinding.FragmentProfileBinding
-import com.example.hastanerandevusistemi.register.RegisterDao
 import com.example.hastanerandevusistemi.register.RegisterRepository
 
 class ProfileFragment : Fragment() {
@@ -38,7 +37,6 @@ class ProfileFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-
         return binding.root
     }
 
@@ -46,7 +44,6 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeUserProfile()
     }
-
 
     private fun observeUserProfile() {
         viewModel.users.observe(viewLifecycleOwner) { userList ->

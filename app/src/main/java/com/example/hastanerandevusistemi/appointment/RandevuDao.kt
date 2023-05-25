@@ -1,21 +1,16 @@
 package com.example.hastanerandevusistemi.appointment
 
-import androidx.lifecycle.LiveData
+
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
 interface RandevuDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAppointment(randevuEntity: List<RandevuEntity>): List<Long>
 
-    @Insert
-    suspend fun insertRandevu(randevu: RandevuEntity)
-
-    @Delete
-    suspend fun deleteRandevu(randevu: RandevuEntity)
-
-    @Query("SELECT * FROM randevu_table")
-    fun getAllRandevular(): LiveData<List<RandevuEntity>>
-
+    @Query("SELECT * FROM randevu WHERE userId = :userId")
+    suspend fun getAllAppointment(userId: Int): List<RandevuEntity>
 }

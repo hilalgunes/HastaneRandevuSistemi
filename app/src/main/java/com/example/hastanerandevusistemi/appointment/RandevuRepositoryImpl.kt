@@ -1,19 +1,15 @@
 package com.example.hastanerandevusistemi.appointment
 
 import androidx.lifecycle.LiveData
+import javax.inject.Inject
 
-class RandevuRepositoryImpl(private val randevuDao: RandevuDao)  {
 
-    suspend fun insertRandevu(randevu: RandevuEntity) {
-        randevuDao.insertRandevu(randevu)
+class RandevuRepositoryImpl @Inject constructor (var randevuDao: RandevuDao) : RandevuRepository {
+        override suspend fun getAllAppointment(userId: Int): List<RandevuEntity> {
+            return randevuDao.getAllAppointment(userId)
+        }
+
+        override suspend fun insertAppointment(appointmentEntity: List<RandevuEntity>): List<Long> {
+            return randevuDao.insertAppointment(appointmentEntity)
+        }
     }
-
-
-     suspend fun deleteRandevu(randevu: RandevuEntity) {
-        randevuDao.deleteRandevu(randevu)
-    }
-
-    suspend fun getAllRandevular(): LiveData<List<RandevuEntity>> {
-        return randevuDao.getAllRandevular()
-    }
-}

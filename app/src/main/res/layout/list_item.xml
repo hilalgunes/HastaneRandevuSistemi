@@ -7,124 +7,96 @@
 
     <data>
         <variable
-            name="myViewModel"
-            type="com.example.hastanerandevusistemi.profile.ProfileFragmentViewModel" />
+            name="randevu"
+            type="com.example.hastanerandevusistemi.appointment.RandevuEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/red_box"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/blue_box_shape"
-            android:padding="15dp"
-            android:layout_margin="40dp"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="74dp">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/name"
+            <RelativeLayout
+                android:id="@+id/red_box1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Ad"
-                android:textSize="20dp"
-                android:text="@={myViewModel.name}"
-                app:layout_constraintBottom_toTopOf="@+id/surname"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/red_box" />
+                android:layout_alignParentStart="true"
+                android:background="#16D31E"
+                android:padding="18dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
+                tools:ignore="MissingConstraints">
 
-            <TextView
-                android:id="@+id/surname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Soyad"
-                android:text="@={myViewModel.surname}"
-                android:inputType="text"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/tc"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
+                <TextView
+                    android:id="@+id/hastane"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="30dp"
+                    android:background="#ffff"
+                    android:textColor=" #433939"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Tc Kimlik Numarası"
-                android:inputType="text"
-                android:text="@={myViewModel.TC}"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/gender"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/surname" />
+                <TextView
+                    android:id="@+id/poliklinik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="50dp"
+                    android:background="#FFFFFF"
+                    android:paddingLeft="30dp"
+                    android:textColor="#433939"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Cinsiyet"
-                android:inputType="text"
-                android:text="@={myViewModel.gender}"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toTopOf="@id/birthday"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tc" />
+                <TextView
+                    android:id="@+id/doktor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="90dp"
+                    android:background="#FFFFFF"
+                    android:paddingLeft="30dp"
+                    android:textColor="#433939"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/birthday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Doğum Tarihi"
-                android:text="@={myViewModel.Birthday}"
-                android:inputType="text"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/mail"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gender" />
+                <TextView
+                    android:id="@+id/saat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="120dp"
+                    android:layout_marginTop="70dp"
+                    android:background="#FFFFFF"
+                    android:paddingLeft="30dp"
+                    android:textColor="#433939"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/mail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Email"
-                android:inputType="text"
-                android:textSize="20dp"
-                android:text="@={myViewModel.email}"
-                app:layout_constraintBottom_toTopOf="@+id/phone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/birthday" />
+                <TextView
+                    android:id="@+id/gun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="120dp"
+                    android:layout_marginTop="30dp"
+                    android:background="#FFFFFF"
+                    android:paddingLeft="30dp"
+                    android:textColor="#433939"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:hint="Telefon Numarası"
-                android:textSize="20dp"
-                android:text="@={myViewModel.phone}"
-                app:layout_constraintBottom_toBottomOf="@+id/red_box"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mail" />
+            </RelativeLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

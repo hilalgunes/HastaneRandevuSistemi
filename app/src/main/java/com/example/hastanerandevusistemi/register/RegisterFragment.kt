@@ -58,7 +58,6 @@ class RegisterFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // İstenirse, bir şey yapabilirsiniz, örneğin varsayılan değeri atayabilirsiniz.
             }
         }
 

@@ -22,8 +22,8 @@
                     {
                       "value": 40,
                       "name": "Ahmet",
-                      "surname": "Göksu",
-                      "polikinlikId": 30,
+                      "text": "Göksu",
+                      "poliklinikId": 30,
                       "günler": [
                         {
                           "value": 50,
@@ -485,7 +485,7 @@
                     {
                       "value": 41,
                       "name": "Ayşe",
-                      "surname": "Atmaca",
+                      "text": "Atmaca",
                       "poliklinikId": 30,
                       "günler": [
                         {
@@ -974,10 +974,10 @@
                   "doktor": [
                     {
                       "value": 42,
-                      "text": "Bilal",
-                      "surname": "Ocak",
-                      "polikinlikId": 41,
-                      "gunler": [
+                      "name": "Bilal",
+                      "text": "Ocak",
+                      "poliklinikId": 41,
+                      "günler": [
                         {
                           "value": 60,
                           "text": "pazartesi",

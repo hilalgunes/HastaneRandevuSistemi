@@ -1,218 +1,215 @@
 package com.example.hastanerandevusistemi.appointment
 import android.app.Application
-import android.content.Context
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.hastanerandevusistemi.model.Data
-import com.google.gson.Gson
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.hastanerandevusistemi.BaseViewModel
+import com.example.hastanerandevusistemi.RequestState
+import com.example.hastanerandevusistemi.json.entity.*
+import com.example.hastanerandevusistemi.json.useCase.city.GetAllCityUseCase
+import com.example.hastanerandevusistemi.json.useCase.district.GetAllDistrictUseCase
+import com.example.hastanerandevusistemi.json.useCase.doktor.GetAllDoktorUseCase
+import com.example.hastanerandevusistemi.json.useCase.gun.GetAllGunUseCase
+import com.example.hastanerandevusistemi.json.useCase.hastane.GetHastaneUseCase
+import com.example.hastanerandevusistemi.json.useCase.poliklinik.GetPoliklinikUseCase
+import com.example.hastanerandevusistemi.json.useCase.saat.ChangeSaatValueUseCase
+import com.example.hastanerandevusistemi.json.useCase.saat.GetAllSaatUseCase
+import com.example.hastanerandevusistemi.model.Randevu
+import dagger.Provides
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class MakeAnAppointmentFragmentViewModel(private val repository: RandevuRepository, application: Application) :
-    AndroidViewModel(application) , Observable {
+@HiltViewModel
+class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Application,
+    private var getAllCityUseCase: GetAllCityUseCase,
+    private var getAllDistrictUseCase: GetAllDistrictUseCase,
+    private var getHastaneUseCase: GetHastaneUseCase,
+    private var getPoliklinikUseCase: GetPoliklinikUseCase,
+    private var getDoktorUseCase: GetAllDoktorUseCase,
+    private var getGunUseCase: GetAllGunUseCase,
+    private var getSaatUseCase: GetAllSaatUseCase,
+    private var changeSaatValueUseCase: ChangeSaatValueUseCase,
+) : BaseViewModel(application) {
 
-    @Bindable
-    val il = MutableLiveData<String?>()
-    @Bindable
-    val ilce = MutableLiveData<String?>()
-    @Bindable
-    val hastane = MutableLiveData<String?>()
-    @Bindable
-    val poliklinik = MutableLiveData<String?>()
-    @Bindable
-    val doktor = MutableLiveData<String?>()
-    @Bindable
-    val gun = MutableLiveData<String?>()
-    @Bindable
-    val saat = MutableLiveData<String?>()
+    var il : MutableLiveData<List<CityEntity>?> = MutableLiveData()
+    var ilce : MutableLiveData<List<DistrictEntity>?> = MutableLiveData()
+    var hastane : MutableLiveData<List<HastaneEntity>?> = MutableLiveData()
+    var poliklinik : MutableLiveData<List<PoliklinikEntity>?> = MutableLiveData()
+    var doktor : MutableLiveData<List<DoktorEntity>?> = MutableLiveData()
+    var gun : MutableLiveData<List<GunEntity>?> = MutableLiveData()
+    var saat : MutableLiveData<List<SaatEntity>?> = MutableLiveData()
 
-    private val randevuList: MutableLiveData<List<RandevuEntity>> = MutableLiveData()
-    private val ilcelerMap: MutableMap<String, List<String>> = mutableMapOf()
-    private val hastanelerMap: MutableMap<String, List<String>> = mutableMapOf()
-    private val polikliniklerMap: MutableMap<String, List<String>> = mutableMapOf()
-    private val doktorlarMap: MutableMap<String, List<String>> = mutableMapOf()
-    private val gunlerMap: MutableMap<String, List<String>> = mutableMapOf()
-    private val saatlerMap: MutableMap<String, List<String>> = mutableMapOf()
+    var userId: MutableLiveData<Int?> = MutableLiveData()
 
+    var selectedCityId: MutableLiveData<Int> = MutableLiveData()
+    var selectedCityName: MutableLiveData<String> = MutableLiveData()
+    var selectedDistrictId: MutableLiveData<Int> = MutableLiveData()
+    var selectedDistrictName: MutableLiveData<String> = MutableLiveData()
+    var selectedHospitalId: MutableLiveData<Int> = MutableLiveData()
+    var selectedHospitalName: MutableLiveData<String> = MutableLiveData()
+    var selectedDepertmantId: MutableLiveData<Int> = MutableLiveData()
+    var selectedDepertmantName: MutableLiveData<String> = MutableLiveData()
+    var selectedDoctorId: MutableLiveData<Int> = MutableLiveData()
+    var selectedDoctorName: MutableLiveData<String> = MutableLiveData()
+    var selectedDateId: MutableLiveData<Int> = MutableLiveData()
+    var selectedDateName: MutableLiveData<String> = MutableLiveData()
+    var selectedHourId: MutableLiveData<Int> = MutableLiveData()
+    var selectedHourName: MutableLiveData<String> = MutableLiveData()
 
-    fun loadJsonData(context: Context) {
-        val jsonFile: String = context.assets.open("hastanerandevu.json").bufferedReader().use {
-            it.readText()
-        }
-        val gson = Gson()
-        val data: Data = gson.fromJson(jsonFile, Data::class.java)
-        val entityList = convertToEntityList(data)
-        randevuList.value = entityList
-    }
-
-    fun getRandevuList(): LiveData<List<RandevuEntity>> {
-        return randevuList
-    }
-
-    fun  makeAnAppointment() {
-
-    }
-
-    fun getIller(): List<String> {
-        val iller = mutableListOf<String>()
-        val randevuList = randevuList.value
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (!iller.contains(randevu.il)) {
-                    iller.add(randevu.il)
+    fun getIller() {
+        getAllCityUseCase.invoke().onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    il.value = it.data
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        return iller
+        }.launchIn(viewModelScope)
     }
 
-    fun getIlceler(il: String): List<String> {
-        val ilceler = ilcelerMap[il]
-        if (ilceler != null) {
-            return ilceler
-        }
-        val ilceList = mutableListOf<String>()
-        val randevuList = randevuList.value
-
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (randevu.il == il && !ilceList.contains(randevu.ilce)) {
-                    ilceList.add(randevu.ilce)
+    fun getIlceler(ilId: Int) {
+        getAllDistrictUseCase.invoke(ilId).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    ilce.value = it.data
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        // İlçeleri ilcelerMap'e kaydet
-        ilcelerMap[il] = ilceList
-
-        return ilceList
+        }.launchIn(viewModelScope)
     }
 
-    fun getHastaneler(ilce: String): List<String> {
-        val hastaneler = hastanelerMap[ilce]
-        if (hastaneler != null) {
-            return hastaneler
-        }
-        val hastaneList = mutableListOf<String>()
-        val randevuList = randevuList.value
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (randevu.ilce == ilce && !hastaneList.contains(randevu.hastane)) {
-                    hastaneList.add(randevu.hastane)
+    fun getHastaneler(discId: Int) {
+        getHastaneUseCase.invoke(discId).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    hastane.value = it.data
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        hastanelerMap[ilce] = hastaneList
-        return hastaneList
+        }.launchIn(viewModelScope)
     }
 
-    fun getPoliklinikler(ilce: String, hastane: String): List<String> {
-        val poliklinikler = polikliniklerMap["$ilce-$hastane"]
-        if (poliklinikler != null) {
-            return poliklinikler
-        }
-        val poliklinikList = mutableListOf<String>()
-        val randevuList = randevuList.value
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (randevu.ilce == ilce && randevu.hastane == hastane && !poliklinikList.contains(randevu.poliklinik)) {
-                    poliklinikList.add(randevu.poliklinik)
+    fun getPoliklinikler(hospitalId: Int) {
+        getPoliklinikUseCase.invoke(hospitalId).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    poliklinik.value = it.data
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        polikliniklerMap["$ilce-$hastane"] = poliklinikList
-        return poliklinikList
+        }.launchIn(viewModelScope)
     }
 
-    fun getDoktorlar(ilce: String, hastane: String, poliklinik: String): List<String> {
-        val doktorlar = doktorlarMap["$ilce-$hastane-$poliklinik"]
-        if (doktorlar != null) {
-            return doktorlar
-        }
-        val doktorList = mutableListOf<String>()
-        val randevuList = randevuList.value
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (randevu.ilce == ilce && randevu.hastane == hastane && randevu.poliklinik == poliklinik &&
-                    !doktorList.contains(randevu.doktor)) {
-                    doktorList.add(randevu.doktor)
+    fun getDoktorlar(poliklinikId: Int) {
+        getDoktorUseCase.invoke(poliklinikId).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    doktor.value = it.data
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        doktorlarMap["$ilce-$hastane-$poliklinik"] = doktorList
-        return doktorList
+        }.launchIn(viewModelScope)
+
     }
 
-    fun getGunler(ilce: String, hastane: String, poliklinik: String, doktor: String): List<String> {
-        val gunler = gunlerMap["$ilce-$hastane-$poliklinik-$doktor"]
-        if (gunler != null) {
-            return gunler
-        }
-        val gunList = mutableListOf<String>()
-        val randevuList = randevuList.value
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (randevu.ilce == ilce && randevu.hastane == hastane && randevu.poliklinik == poliklinik &&
-                    randevu.doktor == doktor && !gunList.contains(randevu.gun)) {
-                    gunList.add(randevu.gun)
+    fun getGunler(doctorId: Int) {
+        getGunUseCase.invoke(doctorId).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    gun.value = it.data
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        gunlerMap["$ilce-$hastane-$poliklinik-$doktor"] = gunList
-        return gunList
+        }.launchIn(viewModelScope)
+
     }
 
-    fun getSaatler(ilce: String, hastane: String, poliklinik: String, doktor: String, gun: String): List<String> {
-        val saatler = saatlerMap["$ilce-$hastane-$poliklinik-$doktor-$gun"]
-        if (saatler != null) {
-            return saatler
-        }
-        val saatList = mutableListOf<String>()
-        val randevuList = randevuList.value
-        if (randevuList != null) {
-            for (randevu in randevuList) {
-                if (randevu.ilce == ilce && randevu.hastane == hastane && randevu.poliklinik == poliklinik &&
-                    randevu.doktor == doktor && randevu.gun == gun && !saatList.contains(randevu.saat)) {
-                    saatList.add(randevu.saat)
+    fun getSaatler(dayId: Int) {
+        getSaatUseCase.invoke(dayId).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    saat.value = it.data
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
                 }
             }
-        }
-        saatlerMap["$ilce-$hastane-$poliklinik-$doktor-$gun"] = saatList
-        return saatList
+        }.launchIn(viewModelScope)
     }
 
-    private fun convertToEntityList(data: Data): List<RandevuEntity> {
-        val randevuList = mutableListOf<RandevuEntity>()
-        for (city in data.data.orEmpty()) {
-            for (district in city.districts.orEmpty()) {
-                for (hastane in district.hastane.orEmpty()) {
-                    for (poliklinik in hastane.polikinlik.orEmpty()) {
-                        for (doktor in poliklinik.doktor.orEmpty()) {
-                            for (gun in doktor.gunler.orEmpty()) {
-                                for (saat in gun.saatler.orEmpty()) {
-                                    val randevu = RandevuEntity(
-                                        il = city.text.orEmpty(),
-                                        ilce = district.text.orEmpty(),
-                                        hastane = hastane.text.orEmpty(),
-                                        poliklinik = poliklinik.text.orEmpty(),
-                                        doktor = doktor.name.orEmpty(),
-                                        gun = gun.text.orEmpty(),
-                                        saat = saat.text.orEmpty()
-                                    )
-                                    randevuList.add(randevu)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return randevuList
-    }
+    fun randevuAl(
+        userId: Int,
+        cityId: Int,
+        cityName: String,
+        hospitalId: Int,
+        hospitalName: String,
+        departmentId: Int,
+        departmentName: String,
+        doctorId: Int,
+        doctorName: String,
+        dateId: Int,
+        dateName: String,
+        hourId: Int,
+        hourName: String
+    ) {
+        val randevu: ArrayList<Randevu> = arrayListOf()
+        randevu.add(
+            Randevu(
+                userId,
+                cityId,
+                cityName,
+                hospitalId,
+                hospitalName,
+                departmentId,
+                departmentName,
+                doctorId,
+                doctorName,
+                dateId,
+                dateName,
+                hourId,
+                hourName
+            )
+        )
 
-    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-    }
-
-    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }
 }

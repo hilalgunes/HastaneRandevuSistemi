@@ -4,31 +4,21 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "randevu_table")
-data class RandevuEntity (
-
+@Entity(tableName = "randevu")
+data class RandevuEntity(
     @PrimaryKey(autoGenerate = true)
-    var userId: Int = 0,
-
-    @ColumnInfo(name = "il")
-    var il: String,
-
-    @ColumnInfo(name = "ilce")
-    var ilce: String,
-
-    @ColumnInfo(name = "hastane")
-    var hastane: String,
-
-    @ColumnInfo(name = "poliklinik")
-    var poliklinik: String,
-
-    @ColumnInfo(name = "doktor")
-    var doktor: String,
-
-    @ColumnInfo(name = "gun")
-    var gun: String,
-
-    @ColumnInfo(name = "saat")
-    var saat: String,
-
-    )
+    val id: Int? = null,
+    val userId: Int? = null,
+    val cityId: Int? = null,
+    val cityName: String? = null,
+    val hospitalId: Int? = null,
+    val hospitalName: String? = null,
+    val departmentId: Int? = null,
+    val departmentName: String? = null,
+    val doctorId: Int? = null,
+    val doctorName: String? = null,
+    val dayId: Int? = null,
+    val dayName: String? = null,
+    val hourId: Int? = null,
+    val hourName: String? = null
+)

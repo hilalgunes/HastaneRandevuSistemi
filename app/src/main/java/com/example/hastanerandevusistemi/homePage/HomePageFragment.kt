@@ -43,8 +43,6 @@ class HomePageFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-
-
         viewModel.navigateto.observe(viewLifecycleOwner, Observer { hasFinished ->
             if (hasFinished == true) {
                 viewModel.doneNavigating()
