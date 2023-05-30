@@ -1,39 +1,40 @@
 package com.example.hastanerandevusistemi.profile
 
 import android.app.Application
-import android.util.Log
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.hastanerandevusistemi.BaseViewModel
+import com.example.hastanerandevusistemi.MyPreferences
+import com.example.hastanerandevusistemi.RequestState
+import com.example.hastanerandevusistemi.register.GetUserUseCase
 import com.example.hastanerandevusistemi.register.RegisterEntity
-import com.example.hastanerandevusistemi.register.RegisterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-class ProfileFragmentViewModel(private val repository: RegisterRepository,application: Application)
-    :AndroidViewModel(application), Observable{
+@HiltViewModel
+class ProfileFragmentViewModel @Inject constructor(
+    application: Application,
+    private val getUserUseCase: GetUserUseCase
+) : BaseViewModel(application) {
 
-    val users = repository.users
+    var userInfo: MutableLiveData<RequestState<RegisterEntity?>> = MutableLiveData()
 
 
-    @Bindable
-    val name = MutableLiveData<String?>()
-    @Bindable
-    val surname = MutableLiveData<String?>()
-    @Bindable
-    val tC = MutableLiveData<String?>()
-    @Bindable
-    var gender = MutableLiveData<String?>()
-    @Bindable
-    val birthday = MutableLiveData<String?>()
-    @Bindable
-    val email = MutableLiveData<String?>()
-    @Bindable
-    val phone = MutableLiveData<String?>()
+    fun getUserInfo(tc: String, password: String) {
+        getUserUseCase.invoke(tc, password).onEach {
+            when (it) {
+                is RequestState.Loading -> {
 
-    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+                }
+                is RequestState.Success -> {
+                    userInfo.value = RequestState.Success(it.data)
+                }
+                is RequestState.Error -> {
+
+                }
+            }
+        }.launchIn(viewModelScope)
     }
-    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-    }
-
 }

@@ -57,7 +57,7 @@
             <Spinner
                 android:id="@+id/ilSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/ilceSpinner"
@@ -68,7 +68,7 @@
             <Spinner
                 android:id="@+id/ilceSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/hastaneSpinner"
@@ -79,7 +79,7 @@
             <Spinner
                 android:id="@+id/hastaneSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/poliklinikSpinner"
@@ -90,7 +90,7 @@
             <Spinner
                 android:id="@+id/poliklinikSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/doktorSpinner"
@@ -101,7 +101,7 @@
             <Spinner
                 android:id="@+id/doktorSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/gunSpinner"
@@ -112,7 +112,7 @@
             <Spinner
                 android:id="@+id/gunSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/saatSpinner"
@@ -123,7 +123,7 @@
             <Spinner
                 android:id="@+id/saatSpinner"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
                 android:background="@drawable/edittext_bg"
                 app:layout_constraintBottom_toTopOf="@+id/randevugor"

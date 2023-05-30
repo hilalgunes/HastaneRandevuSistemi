@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.hastanerandevusistemi.profile.ProfileFragment">
 
-
     <data>
         <variable
             name="myViewModel"
@@ -35,7 +34,6 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Ad"
                 android:textSize="20dp"
-                android:text="@={myViewModel.name}"
                 app:layout_constraintBottom_toTopOf="@+id/surname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:hint="Soyad"
-                android:text="@={myViewModel.surname}"
                 android:inputType="text"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/tc"
@@ -62,7 +59,6 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Tc Kimlik Numarası"
                 android:inputType="text"
-                android:text="@={myViewModel.TC}"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/gender"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +72,6 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Cinsiyet"
                 android:inputType="text"
-                android:text="@={myViewModel.gender}"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toTopOf="@id/birthday"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +84,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:hint="Doğum Tarihi"
-                android:text="@={myViewModel.Birthday}"
                 android:inputType="text"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/mail"
@@ -105,7 +99,6 @@
                 android:hint="Email"
                 android:inputType="text"
                 android:textSize="20dp"
-                android:text="@={myViewModel.email}"
                 app:layout_constraintBottom_toTopOf="@+id/phone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +111,6 @@
                 android:background="@drawable/edittext_bg"
                 android:hint="Telefon Numarası"
                 android:textSize="20dp"
-                android:text="@={myViewModel.phone}"
                 app:layout_constraintBottom_toBottomOf="@+id/red_box"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

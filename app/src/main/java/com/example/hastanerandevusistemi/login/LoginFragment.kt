@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,79 +16,65 @@ import com.example.hastanerandevusistemi.AppDatabase
 import com.example.hastanerandevusistemi.R
 import com.example.hastanerandevusistemi.databinding.FragmentLoginBinding
 import com.example.hastanerandevusistemi.register.RegisterRepository
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class LoginFragment : Fragment() {
+@AndroidEntryPoint
+class LoginFragment : Fragment(), View.OnClickListener{
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var viewModel: LoginFragmentViewModel
+    private  val viewModel: LoginFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Veri bağlama işlemini yap
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(layoutInflater)
 
-        val application = requireNotNull(this.activity).application
-
-        val dao = AppDatabase.getInstance(application).registerDao()
-
-        val repository = RegisterRepository(dao)
-
-        val factory = LoginViewModelFactory(repository, application)
-
-        viewModel = ViewModelProvider(requireActivity(), factory).get(LoginFragmentViewModel::class.java)
-
-        binding.myViewModel = viewModel
-
-        binding.lifecycleOwner = this
-
-        viewModel.navigateToLogin.observe(viewLifecycleOwner, Observer { hasFinished ->
-            if (hasFinished == true) {
-                Log.i("MYTAG", "inside observe")
-                viewModel.doneNavigating()
-                navigateToHomePageFragment()
-            }
-        })
-
-        viewModel.navigatetoRegister.observe(viewLifecycleOwner, Observer { hasFinished ->
-            if (hasFinished == true) {
-                Log.i("MYTAG", "inside observe")
-                viewModel.doneNavigating()
-                navigateToRegisterFragment()
-            }
-        })
-
-        viewModel.errotoast.observe(viewLifecycleOwner, Observer { hasError->
-            if(hasError==true){
-                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
-                viewModel.donetoast()
-            }
-        })
-
-        viewModel.errotoastUser.observe(viewLifecycleOwner, Observer { hasError->
-            if(hasError==true){
-                Toast.makeText(requireContext(), "User doesnt exist,please Register!", Toast.LENGTH_SHORT).show()
-                viewModel.donetoastErrorUsername()
-            }
-        })
-
-        viewModel.errorToastInvalidPassword.observe(viewLifecycleOwner, Observer { hasError->
-            if(hasError==true){
-                Toast.makeText(requireContext(), "Please check your Password", Toast.LENGTH_SHORT).show()
-                viewModel.donetoastInvalidPassword()
-            }
-        })
-
+        initView()
         return binding.root
     }
 
-    private fun navigateToHomePageFragment() {
-        findNavController().navigate(R.id.homePageFragmentgecis)
+    private fun initView() {
+        binding.registerButton.setOnClickListener(this)
+        binding.loginButton.setOnClickListener(this)
     }
 
-    private fun navigateToRegisterFragment() {
-        findNavController().navigate(R.id.registerGecis)
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            binding.registerButton.id -> {
+                findNavController().navigate(R.id.registerGecis)
+            }
+            binding.loginButton.id -> {
+                login()
+            }
+        }
+    }
+
+    fun login() {
+        if (!binding.TC.text.isNullOrEmpty()) {
+            if (!binding.Sifre.text.isNullOrEmpty()) {
+                viewModel.getUserByTcAndPassword(
+                    binding.TC.text.toString(),
+                    binding.Sifre.text.toString()
+                )
+                viewModel.loginState.observe(viewLifecycleOwner) {
+                    if (it) {
+                        Toast.makeText(context, "Giriş Yaptınız", Toast.LENGTH_SHORT).show()
+                        val bundle = Bundle().apply {
+                            putInt("tc", binding.TC.text.toString().toInt())
+                            putString("password", binding.Sifre.text.toString())
+                        }
+                        findNavController().navigate(R.id.homePageFragment, bundle)
+                    } else {
+                        Toast.makeText(context, "Giriş Başarısız Bilgilerinizi Kontrol Ediniz", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(context, "Şifre Alanını Boş Bırakmayınız", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(context, "TC Alanını Boş Bırakmayınız", Toast.LENGTH_SHORT).show()
+        }
     }
 }

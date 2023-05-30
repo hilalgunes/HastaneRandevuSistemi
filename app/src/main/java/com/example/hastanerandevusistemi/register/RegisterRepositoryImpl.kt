@@ -1,18 +1,23 @@
 package com.example.hastanerandevusistemi.register
 
-import androidx.lifecycle.LiveData
 
-class RegisterRepositoryImpl(private val registerDao: RegisterDao) {
+import javax.inject.Inject
 
-    suspend fun addUser(register: RegisterEntity) {
-        registerDao.addUser(register)
+class RegisterRepositoryImpl @Inject constructor(var registerDao: RegisterDao) : RegisterRepository {
+
+    override suspend fun insertUser(register: RegisterEntity): Long {
+        return registerDao.insertUser(register)
     }
 
-    suspend fun getAllUser(TC: String, password: String): RegisterEntity {
-        return registerDao.getAllUser(TC, password)
+    override suspend fun getAllUser(): List<RegisterEntity> {
+        return registerDao.getAllUser()
     }
 
-    suspend fun getAllUsers(): LiveData<List<RegisterEntity>> {
-        return registerDao.getAllUsers()
+    override suspend fun getUserid(id: Int): RegisterEntity {
+        return registerDao.getUserid(id)
     }
+    override suspend fun getUser(tc: String?, password: String): RegisterEntity {
+        return registerDao.getUser(tc, password)
+    }
+
 }

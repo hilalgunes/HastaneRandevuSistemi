@@ -1,5 +1,6 @@
 package com.example.hastanerandevusistemi
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -15,19 +16,26 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     private val splashActivityViewModel: SplashActivityViewModel by viewModels()
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_splash)
-        getData()
-        intent()
-    }
 
-    fun intent() {
-        val intent = Intent(this, MainActivity::class.java)
-        Handler().postDelayed({
-            startActivity(intent)
-            finish()
-        }, 1000)
+        if(splashActivityViewModel.firtOpen()) {
+            getData()
+            val intent = Intent(this, MainActivity::class.java)
+            Handler().postDelayed({
+                startActivity(intent)
+                finish()
+            }, 1000)
+      } else {
+          val intent = Intent(this, MainActivity::class.java)
+            Handler().postDelayed({
+                startActivity(intent)
+                finish()
+            }, 1000)
+
+        }
     }
 
     private fun getData() {

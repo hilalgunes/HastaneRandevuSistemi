@@ -6,12 +6,12 @@
       "districts": [
         {
           "value": 10,
-          "text": "TAKSIM",
+          "text": "ÜMRANİYE",
           "ilId": 1,
           "hastane": [
             {
               "value": 20,
-              "text": "TAKSIM EGITIM VE ARASTIRMA HASTANESİ",
+              "text": "ÜMRANİYE DEVLET HASTANESİ",
               "ilceId": 10,
               "polikinlik": [
                 {
@@ -22,12 +22,12 @@
                     {
                       "value": 40,
                       "name": "Ahmet",
-                      "text": "Göksu",
+                      "text": "Ahmet Göksu",
                       "poliklinikId": 30,
                       "günler": [
                         {
                           "value": 50,
-                          "text": "pazartesi",
+                          "text": "Pazartesi",
                           "doktorId": 40,
                           "saatler": [
                             {
@@ -118,7 +118,7 @@
                         },
                         {
                           "value": 51,
-                          "text": "sali",
+                          "text": "Salı",
                           "doktorId": 40,
                           "saatler": [
                             {
@@ -209,7 +209,7 @@
                         },
                         {
                           "value": 52,
-                          "text": "carsamba",
+                          "text": "Çarşamba",
                           "doktorId": 40,
                           "saatler": [
                             {
@@ -300,7 +300,7 @@
                         },
                         {
                           "value": 53,
-                          "text": "persembe",
+                          "text": "Perşembe",
                           "doktorId": 40,
                           "saatler": [
                             {
@@ -391,7 +391,7 @@
                         },
                         {
                           "value": 54,
-                          "text": "cuma",
+                          "text": "Cuma",
                           "doktorId": 40,
                           "saatler": [
                             {
@@ -485,12 +485,12 @@
                     {
                       "value": 41,
                       "name": "Ayşe",
-                      "text": "Atmaca",
+                      "text": "Ayşe Atmaca",
                       "poliklinikId": 30,
                       "günler": [
                         {
                           "value": 55,
-                          "text": "pazartesi",
+                          "text": "Pazartesi",
                           "doktorId": 41,
                           "saatler": [
                             {
@@ -581,7 +581,7 @@
                         },
                         {
                           "value": 56,
-                          "text": "sali",
+                          "text": "Salı",
                           "doktorId": 41,
                           "saatler": [
                             {
@@ -672,7 +672,7 @@
                         },
                         {
                           "value": 57,
-                          "text": "carsamba",
+                          "text": "Çarşamba",
                           "doktorId": 41,
                           "saatler": [
                             {
@@ -763,7 +763,7 @@
                         },
                         {
                           "value": 58,
-                          "text": "persembe",
+                          "text": "Perşembe",
                           "doktorId": 41,
                           "saatler": [
                             {
@@ -854,7 +854,7 @@
                         },
                         {
                           "value": 59,
-                          "text": "cuma",
+                          "text": "Cuma",
                           "doktorId": 41,
                           "saatler": [
                             {
@@ -964,7 +964,7 @@
           "hastane": [
             {
               "value": 21,
-              "text": "Ankara Eğitim ve Araştırma Hastanesi",
+              "text": "Ankara Kızılay Devlet Hastanesi",
               "ilceId": 11,
               "polikinlik": [
                 {
@@ -975,12 +975,12 @@
                     {
                       "value": 42,
                       "name": "Bilal",
-                      "text": "Ocak",
+                      "text": "Bilal Ocak",
                       "poliklinikId": 41,
                       "günler": [
                         {
                           "value": 60,
-                          "text": "pazartesi",
+                          "text": "Pazartesi",
                           "doktorId": 42,
                           "saatler": [
                             {
@@ -1065,7 +1065,7 @@
                         },
                         {
                           "value": 61,
-                          "text": "salı",
+                          "text": "Salı",
                           "doktorId": 42,
                           "saatler": [
                             {
@@ -1150,7 +1150,7 @@
                         },
                         {
                           "value": 62,
-                          "text": "çarşamba",
+                          "text": "Çarşamba",
                           "doktorId": 42,
                           "saatler": [
                             {
@@ -1235,7 +1235,7 @@
                         },
                         {
                           "value": 63,
-                          "text": "perşembe",
+                          "text": "Perşembe",
                           "doktorId": 42,
                           "saatler": [
                             {
@@ -1320,7 +1320,7 @@
                         },
                         {
                           "value": 64,
-                          "text": "cuma",
+                          "text": "Cuma",
                           "doktorId": 42,
                           "saatler": [
                             {

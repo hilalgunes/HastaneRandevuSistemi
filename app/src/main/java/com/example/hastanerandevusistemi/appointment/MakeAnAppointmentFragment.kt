@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.hastanerandevusistemi.R
 import com.example.hastanerandevusistemi.databinding.FragmentMakeAnAppointmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,6 +46,8 @@ class MakeAnAppointmentFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             binding.randevugor.id -> {
                 observeSelectedAppointment()
+                Toast.makeText(context, "Randevunuz Başarılı Bir Şekilde Oluşturulmuştur", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.appointmentsFragment)
             }
         }
     }
@@ -70,6 +75,7 @@ class MakeAnAppointmentFragment : Fragment(), View.OnClickListener {
                                                 ) { hourId ->
                                                     if (hourId != null) {
                                                         Log.d("selectedHourId", hourId.toString())
+
                                                         viewModel.randevuAl(
                                                             viewModel.userId.value!!,
                                                             cityId,
@@ -85,6 +91,7 @@ class MakeAnAppointmentFragment : Fragment(), View.OnClickListener {
                                                             hourId,
                                                             viewModel.selectedHourName.value!!
                                                         )
+
                                                     }
                                                 }
                                             }

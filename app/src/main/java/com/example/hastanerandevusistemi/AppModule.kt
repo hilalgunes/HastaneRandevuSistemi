@@ -9,6 +9,9 @@ import com.example.hastanerandevusistemi.appointment.RandevuRepositoryImpl
 import com.example.hastanerandevusistemi.json.*
 import com.example.hastanerandevusistemi.json.dao.*
 import com.example.hastanerandevusistemi.json.repository.*
+import com.example.hastanerandevusistemi.register.RegisterDao
+import com.example.hastanerandevusistemi.register.RegisterRepository
+import com.example.hastanerandevusistemi.register.RegisterRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -109,5 +112,16 @@ object AppModule {
     fun provideRandevuDbRepositoryImpl(dao: RandevuDao): RandevuRepository {
         return RandevuRepositoryImpl(dao)
     }
+
+    @Provides
+    fun provideregisterDao(randevuDatabase: RandevuDatabase): RegisterDao {
+        return randevuDatabase.registerDao()
+    }
+
+    @Provides
+    fun provideRegisterDbRepositoryImpl(dao: RegisterDao): RegisterRepository {
+        return RegisterRepositoryImpl(dao)
+    }
+
 }
 

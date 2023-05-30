@@ -15,6 +15,12 @@
         <action
             android:id="@+id/makeAnAppointmentFragmentgecis"
             app:destination="@id/makeAnAppointmentFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_appointmentsFragment"
+            app:destination="@id/appointmentsFragment" />
+        <action
+            android:id="@+id/loginDonus"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -34,8 +40,8 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_registerFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            android:id="@+id/loginGecis"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -46,15 +52,19 @@
         android:id="@+id/makeAnAppointmentFragment"
         android:name="com.example.hastanerandevusistemi.appointment.MakeAnAppointmentFragment"
         android:label="MakeAnAppointmentFragment"
-        tools:layout="@layout/fragment_make_an_appointment"/>
+        tools:layout="@layout/fragment_make_an_appointment">
+        <action
+            android:id="@+id/action_makeAnAppointmentFragment_to_appointmentsFragment"
+            app:destination="@id/appointmentsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/appointmentsFragment"
         android:name="com.example.hastanerandevusistemi.appointment.AppointmentsFragment"
         android:label="AppointmentsFragment"
-        tools:layout="@layout/fragment_appointments"/>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.hastanerandevusistemi.MainActivity"
-        android:label="MainActivity"
-        tools:layout="@layout/activity_main"/>
+        tools:layout="@layout/fragment_appointments">
+        <action
+            android:id="@+id/action_appointmentsFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
+
 </navigation>

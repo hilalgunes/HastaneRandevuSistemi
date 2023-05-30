@@ -21,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashActivityViewModel @Inject constructor(
-    @ApplicationContext var context: Context) : ViewModel() {
+    @ApplicationContext var context: Context,
+    private val preferences: MyPreferences) : ViewModel() {
 
     @Inject
     lateinit var saveCityUseCase: SaveCityUseCase
@@ -46,6 +47,15 @@ class SplashActivityViewModel @Inject constructor(
     private var doktor: ArrayList<Doktor> = arrayListOf()
     private var gun: ArrayList<Gunler> = arrayListOf()
     private var saat: ArrayList<Saatler> = arrayListOf()
+
+
+    fun firtOpen(): Boolean {
+        if (!preferences.getBoolean("firstOpen")) {
+            preferences.setBoolean("firstOpen", true)
+            return true
+        }
+        return false
+    }
 
     fun setCityData() {
         try {

@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.hastanerandevusistemi.json.dao.*
 import com.example.hastanerandevusistemi.json.entity.*
+import com.example.hastanerandevusistemi.register.RegisterDao
+import com.example.hastanerandevusistemi.register.RegisterEntity
 
 @Database(
     entities = [
@@ -16,7 +18,8 @@ import com.example.hastanerandevusistemi.json.entity.*
         PoliklinikEntity::class,
         DoktorEntity::class,
         GunEntity::class,
-        SaatEntity::class],
+        SaatEntity::class,
+        RegisterEntity::class],
     version = 1
 )
 abstract class RandevuDatabase : RoomDatabase() {
@@ -29,21 +32,6 @@ abstract class RandevuDatabase : RoomDatabase() {
     abstract fun doktorDao(): DoktorDao
     abstract fun gunDao(): GunDao
     abstract fun saatDao(): SaatDao
+    abstract fun registerDao(): RegisterDao
 
-    companion object {
-        @Volatile
-        private var instance: RandevuDatabase? = null
-
-        fun getInstance(context: Context): RandevuDatabase {
-            return instance ?: synchronized(this) {
-                val databaseBuilder = Room.databaseBuilder(
-                    context.applicationContext,
-                    RandevuDatabase::class.java,
-                    "randevu_database"
-                )
-                instance = databaseBuilder.build()
-                instance!!
-            }
-        }
-    }
 }

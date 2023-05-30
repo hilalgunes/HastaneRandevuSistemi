@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,67 +17,63 @@ import com.example.hastanerandevusistemi.R
 import com.example.hastanerandevusistemi.databinding.FragmentHomePageBinding
 import com.example.hastanerandevusistemi.register.RegisterEntity
 import com.example.hastanerandevusistemi.register.RegisterRepository
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class HomePageFragment : Fragment() {
+@AndroidEntryPoint
+class HomePageFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentHomePageBinding
-    private lateinit var viewModel: HomePageFragmentViewModel
+    private val viewModel: HomePageFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_page, container, false)
-
-        val application = requireNotNull(this.activity).application
-
-        val dao = AppDatabase.getInstance(application).registerDao()
-
-        val repository = RegisterRepository(dao)
-
-        val factory = HomePageFactory(repository, application)
-
-        viewModel = ViewModelProvider(requireActivity(), factory).get(HomePageFragmentViewModel::class.java)
-
-        binding.myViewModel = viewModel
-
-        binding.lifecycleOwner = this
-
-        viewModel.navigateto.observe(viewLifecycleOwner, Observer { hasFinished ->
-            if (hasFinished == true) {
-                viewModel.doneNavigating()
-                navigateToProfileFragment()
-            }
-        })
-
-        viewModel.navigatetoappointment.observe(viewLifecycleOwner, Observer { hasFinished ->
-            if (hasFinished == true) {
-                viewModel.doneNavigating()
-                navigateToMakeAnAppointmentFragment()
-            }
-        })
-
-
-        binding.cikis.setOnClickListener {
-            navigateToLoginFragment()
-        }
-
+        binding = FragmentHomePageBinding.inflate(layoutInflater)
+        initView()
         return binding.root
 
     }
 
-    private fun navigateToProfileFragment(){
-        findNavController().navigate(R.id.profilGecis)
+    private fun initView() {
+        binding.randevual.setOnClickListener(this)
+        binding.bilgiler.setOnClickListener(this)
+        binding.aktifrandevu.setOnClickListener(this)
+        binding.cikis.setOnClickListener(this)
     }
 
-    private fun navigateToMakeAnAppointmentFragment() {
-        findNavController().navigate(R.id.makeAnAppointmentFragmentgecis)
+    override fun onClick(v: View?) {
+
+        when (v?.id) {
+
+            binding.randevual.id -> {
+                val bundle = Bundle().apply {
+                    putInt("tc", arguments?.getInt("tc")!!)
+                    putString("password", arguments?.getString("password")!!)
+                }
+                findNavController().navigate(R.id.makeAnAppointmentFragment, bundle)
+            }
+
+            binding.bilgiler.id -> {
+                val bundle = Bundle().apply {
+                    putInt("tc", arguments?.getInt("tc")!!)
+                    putString("password", arguments?.getString("password")!!)
+                    findNavController().navigate(R.id.profilGecis)
+                }
+            }
+
+            binding.aktifrandevu.id -> {
+                val bundle = Bundle().apply {
+                    putInt("tc", arguments?.getInt("tc")!!)
+                    putString("password", arguments?.getString("password")!!)
+                }
+                findNavController().navigate(R.id.appointmentsFragment, bundle)
+            }
+
+            binding.cikis.id -> {
+                findNavController().navigate(R.id.loginDonus)
+            }
+        }
     }
-
-    private fun navigateToLoginFragment() {
-        findNavController().navigate(R.id.loginFragment)
-    }
-
-
 }

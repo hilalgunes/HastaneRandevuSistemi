@@ -34,6 +34,4 @@ data class RegisterEntity (
 
     @ColumnInfo(name = "password")
     var password: String,
-
-
 )
