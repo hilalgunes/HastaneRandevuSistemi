@@ -39,5 +39,4 @@ class AppointmentsFragmentRecyclerAdapter : RecyclerView.Adapter<RecyclerView.Vi
         this.appointmentList.addAll(appointmentList)
         notifyDataSetChanged()
     }
-
 }

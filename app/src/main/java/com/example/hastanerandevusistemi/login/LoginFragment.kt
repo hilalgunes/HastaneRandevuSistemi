@@ -58,11 +58,15 @@ class LoginFragment : Fragment(), View.OnClickListener{
                     binding.TC.text.toString(),
                     binding.Sifre.text.toString()
                 )
+                viewModel.saveUserInfo(
+                    binding.TC.text.toString().toLong(),
+                    binding.Sifre.text.toString()
+                )
                 viewModel.loginState.observe(viewLifecycleOwner) {
                     if (it) {
                         Toast.makeText(context, "Giriş Yaptınız", Toast.LENGTH_SHORT).show()
                         val bundle = Bundle().apply {
-                            putInt("tc", binding.TC.text.toString().toInt())
+                            putString("tc", binding.TC.text.toString())
                             putString("password", binding.Sifre.text.toString())
                         }
                         findNavController().navigate(R.id.homePageFragment, bundle)

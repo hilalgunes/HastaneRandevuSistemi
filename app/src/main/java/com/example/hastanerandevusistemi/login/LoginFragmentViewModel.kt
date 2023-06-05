@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.hastanerandevusistemi.BaseViewModel
+import com.example.hastanerandevusistemi.MyPreferences
 import com.example.hastanerandevusistemi.RequestState
 import com.example.hastanerandevusistemi.register.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginFragmentViewModel @Inject constructor(
     application: Application,
+    private val myPreferences: MyPreferences,
     var getUserUseCase: GetUserUseCase
 ) : BaseViewModel(application) {
 
@@ -42,5 +44,9 @@ class LoginFragmentViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun saveUserInfo(toInt: Long, toString: String) {
+        myPreferences.setLong("userId", toInt)
+        myPreferences.setString("userPassword", toString)
+    }
 
 }

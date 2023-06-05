@@ -39,6 +39,10 @@ class MakeAnAppointmentFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initView() {
+        viewModel.getUserInfo(
+            arguments?.getString("tc")!!,
+            arguments?.getString("password")!!
+        )
         binding.randevugor.setOnClickListener(this)
     }
 
@@ -47,7 +51,6 @@ class MakeAnAppointmentFragment : Fragment(), View.OnClickListener {
             binding.randevugor.id -> {
                 observeSelectedAppointment()
                 Toast.makeText(context, "Randevunuz Başarılı Bir Şekilde Oluşturulmuştur", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.appointmentsFragment)
             }
         }
     }

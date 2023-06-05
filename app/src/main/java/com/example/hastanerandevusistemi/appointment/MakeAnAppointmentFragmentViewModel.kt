@@ -1,8 +1,10 @@
 package com.example.hastanerandevusistemi.appointment
+
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.hastanerandevusistemi.BaseViewModel
+import com.example.hastanerandevusistemi.MyPreferences
 import com.example.hastanerandevusistemi.RequestState
 import com.example.hastanerandevusistemi.json.entity.*
 import com.example.hastanerandevusistemi.json.useCase.city.GetAllCityUseCase
@@ -14,6 +16,7 @@ import com.example.hastanerandevusistemi.json.useCase.poliklinik.GetPoliklinikUs
 import com.example.hastanerandevusistemi.json.useCase.saat.ChangeSaatValueUseCase
 import com.example.hastanerandevusistemi.json.useCase.saat.GetAllSaatUseCase
 import com.example.hastanerandevusistemi.model.Randevu
+import com.example.hastanerandevusistemi.register.GetUserUseCase
 import dagger.Provides
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -21,7 +24,8 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Application,
+class MakeAnAppointmentFragmentViewModel @Inject constructor(
+    application: Application,
     private var getAllCityUseCase: GetAllCityUseCase,
     private var getAllDistrictUseCase: GetAllDistrictUseCase,
     private var getHastaneUseCase: GetHastaneUseCase,
@@ -29,16 +33,19 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
     private var getDoktorUseCase: GetAllDoktorUseCase,
     private var getGunUseCase: GetAllGunUseCase,
     private var getSaatUseCase: GetAllSaatUseCase,
+    private var getUserUseCase: GetUserUseCase,
+    private var saveAppointmentUseCase: SaveAppointmentUseCase,
     private var changeSaatValueUseCase: ChangeSaatValueUseCase,
 ) : BaseViewModel(application) {
 
-    var il : MutableLiveData<List<CityEntity>?> = MutableLiveData()
-    var ilce : MutableLiveData<List<DistrictEntity>?> = MutableLiveData()
-    var hastane : MutableLiveData<List<HastaneEntity>?> = MutableLiveData()
-    var poliklinik : MutableLiveData<List<PoliklinikEntity>?> = MutableLiveData()
-    var doktor : MutableLiveData<List<DoktorEntity>?> = MutableLiveData()
-    var gun : MutableLiveData<List<GunEntity>?> = MutableLiveData()
-    var saat : MutableLiveData<List<SaatEntity>?> = MutableLiveData()
+    var il: MutableLiveData<List<CityEntity>?> = MutableLiveData()
+    var ilce: MutableLiveData<List<DistrictEntity>?> = MutableLiveData()
+    var hastane: MutableLiveData<List<HastaneEntity>?> = MutableLiveData()
+    var poliklinik: MutableLiveData<List<PoliklinikEntity>?> = MutableLiveData()
+    var doktor: MutableLiveData<List<DoktorEntity>?> = MutableLiveData()
+    var gun: MutableLiveData<List<GunEntity>?> = MutableLiveData()
+    var saat: MutableLiveData<List<SaatEntity>?> = MutableLiveData()
+    var appointmentSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     var userId: MutableLiveData<Int?> = MutableLiveData()
 
@@ -57,15 +64,33 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
     var selectedHourId: MutableLiveData<Int> = MutableLiveData()
     var selectedHourName: MutableLiveData<String> = MutableLiveData()
 
+    fun getUserInfo(int: String, string: String) {
+        getUserUseCase.invoke(int, string).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "getData: Loading")
+                }
+                is RequestState.Success -> {
+                    userId.value = it.data?.userId
+                    Log.d("TAG", "getData: Success")
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "getData: Error")
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
     fun getIller() {
         getAllCityUseCase.invoke().onEach {
             when (it) {
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     il.value = it.data
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
@@ -79,10 +104,12 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     ilce.value = it.data
                     Log.d("TAG", "getData: Success")
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
@@ -96,10 +123,12 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     hastane.value = it.data
                     Log.d("TAG", "getData: Success")
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
@@ -113,10 +142,12 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     poliklinik.value = it.data
                     Log.d("TAG", "getData: Success")
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
@@ -130,10 +161,12 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     doktor.value = it.data
                     Log.d("TAG", "getData: Success")
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
@@ -148,10 +181,12 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     gun.value = it.data
                     Log.d("TAG", "getData: Success")
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
@@ -166,16 +201,20 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 is RequestState.Loading -> {
                     Log.d("TAG", "getData: Loading")
                 }
+
                 is RequestState.Success -> {
                     saat.value = it.data
                     Log.d("TAG", "getData: Success")
                 }
+
                 is RequestState.Error -> {
                     Log.d("TAG", "getData: Error")
                 }
             }
         }.launchIn(viewModelScope)
     }
+
+
 
     fun randevuAl(
         userId: Int,
@@ -210,6 +249,37 @@ class MakeAnAppointmentFragmentViewModel @Inject constructor(application: Applic
                 hourName
             )
         )
+        saveAppointmentUseCase.invoke(randevu).onEach {
+            when (it) {
+                is RequestState.Loading -> {
+                    Log.d("TAG", "randevuAl: Loading")
+                }
 
+                is RequestState.Success -> {
+                    Log.d("TAG", "randevuAl: Success")
+                    changeSaatValueUseCase.invoke(randevu[0]).onEach { result ->
+                        when (result) {
+                            is RequestState.Loading -> {
+                                Log.d("TAG", "randevuKaydet: Loading")
+                            }
+
+                            is RequestState.Success -> {
+                                Log.d("TAG", "randevuKaydet: Success")
+                                appointmentSuccess.value = true
+                            }
+
+                            is RequestState.Error -> {
+                                Log.d("TAG", "randevuKaydet: Error")
+                            }
+                        }
+                    }.launchIn(viewModelScope)
+                }
+                is RequestState.Error -> {
+                    Log.d("TAG", "randevuAl: Error")
+                }
+            }
+        }.launchIn(viewModelScope)
     }
+
 }
+

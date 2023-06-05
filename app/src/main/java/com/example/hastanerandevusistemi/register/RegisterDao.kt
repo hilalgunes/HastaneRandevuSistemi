@@ -17,7 +17,7 @@ interface RegisterDao {
 
 
     @Query("SELECT * FROM Register_users_table WHERE tcNo = :tcNo AND password = :password")
-    suspend fun getUser(tcNo: kotlin.String?, password: String): RegisterEntity
+    suspend fun getUser(tcNo: String?, password: String): RegisterEntity
 
     @Query("SELECT * FROM Register_users_table WHERE userId = :userid")
     suspend fun getUserid(userid: Int): RegisterEntity

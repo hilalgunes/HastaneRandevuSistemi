@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.hastanerandevusistemi.AppDatabase
 import com.example.hastanerandevusistemi.R
+import com.example.hastanerandevusistemi.RequestState
 import com.example.hastanerandevusistemi.databinding.FragmentHomePageBinding
 import com.example.hastanerandevusistemi.register.RegisterEntity
 import com.example.hastanerandevusistemi.register.RegisterRepository
@@ -32,6 +33,7 @@ class HomePageFragment : Fragment(), View.OnClickListener {
     ): View? {
         binding = FragmentHomePageBinding.inflate(layoutInflater)
         initView()
+        getUserInfo()
         return binding.root
 
     }
@@ -49,7 +51,7 @@ class HomePageFragment : Fragment(), View.OnClickListener {
 
             binding.randevual.id -> {
                 val bundle = Bundle().apply {
-                    putInt("tc", arguments?.getInt("tc")!!)
+                    putString("tc", arguments?.getString("tc")!!)
                     putString("password", arguments?.getString("password")!!)
                 }
                 findNavController().navigate(R.id.makeAnAppointmentFragment, bundle)
@@ -57,15 +59,15 @@ class HomePageFragment : Fragment(), View.OnClickListener {
 
             binding.bilgiler.id -> {
                 val bundle = Bundle().apply {
-                    putInt("tc", arguments?.getInt("tc")!!)
+                    putString("tc", arguments?.getString("tc")!!)
                     putString("password", arguments?.getString("password")!!)
-                    findNavController().navigate(R.id.profilGecis)
                 }
+                findNavController().navigate(R.id.profileFragment, bundle)
             }
 
             binding.aktifrandevu.id -> {
                 val bundle = Bundle().apply {
-                    putInt("tc", arguments?.getInt("tc")!!)
+                    putString("tc", arguments?.getString("tc")!!)
                     putString("password", arguments?.getString("password")!!)
                 }
                 findNavController().navigate(R.id.appointmentsFragment, bundle)
@@ -76,4 +78,29 @@ class HomePageFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
+    fun getUserInfo() {
+        val userTc = arguments?.getString("tc")
+        val userPassword = arguments?.getString("password")
+        if (userTc != null && userPassword != null) {
+            viewModel.getUserInfo(userTc, userPassword)
+            viewModel.userInfo.observe(viewLifecycleOwner) { requestState ->
+                when (requestState) {
+                    is RequestState.Loading -> {
+                        // İstek yüklenirken yapılacak işlemler
+                    }
+                    is RequestState.Success -> {
+                        val userInfo = requestState.data
+                        val greetingMessage = "Sağlıklı Günler Dileriz Sn.${userInfo?.name}${userInfo?.surname}"
+                        binding.textView.text = greetingMessage
+
+                    }
+                    is RequestState.Error -> {
+                        // Hata durumunda yapılacak işlemler
+                    }
+                }
+            }
+        }
+    }
+
 }

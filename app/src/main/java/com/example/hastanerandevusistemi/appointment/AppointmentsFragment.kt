@@ -50,10 +50,10 @@ class AppointmentsFragment : Fragment() {
                     }
                 }
                 is RequestState.Error -> {
-                    Log.d("TAG", "getMyAppointment: error")
+                    Log.d("TAG", "getAppointments: error")
                 }
                 is RequestState.Loading -> {
-                    Log.d("TAG", "getMyAppointment: Loading")
+                    Log.d("TAG", "getAppointments: Loading")
                 }
             }
         }
@@ -64,10 +64,10 @@ class AppointmentsFragment : Fragment() {
                     adapter.submitList(appointmentList)
                 }
                 is RequestState.Loading -> {
-                    Log.d("TAG", "getMyAppointment: Loading")
+                    Log.d("TAG", "getAppointments: Loading")
                 }
                 is RequestState.Error -> {
-                    Log.d("TAG", "getMyAppointment: Error")
+                    Log.d("TAG", "getAppointments: Error")
                 }
                 else -> {}
             }

@@ -45,10 +45,10 @@ class ProfileFragment : Fragment() {
                         binding.name.text = it.data?.name
                         binding.surname.text = it.data?.surname
                         binding.tc.text = it.data?.TC.toString()
-                        binding.gender.text = it.data?.password
+                        binding.gender.text = it.data?.gender
                         binding.birthday.text = it.data?.birthday
                         binding.mail.text = it.data?.email
-                        binding.phone.text = it.data?.email
+                        binding.phone.text = it.data?.phone
                     }
 
                     is RequestState.Error -> {
